@@ -1,0 +1,9 @@
+CREATE TABLE carros (
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    marca VARCHAR(255) NOT NULL,
+    modelo VARCHAR(255) NOT NULL,
+    ano INT NOT NULL,
+    cor VARCHAR(255) NOT NULL,
+    preco DECIMAL(10, 2) NOT NULL,
+    concessionaria VARCHAR(255) NOT NULL
+);
