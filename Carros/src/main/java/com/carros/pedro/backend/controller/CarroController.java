@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.carros.pedro.backend.carro.Carro;
 import com.carros.pedro.backend.carro.CarroRepository;
@@ -32,8 +33,13 @@ public class CarroController {
 	
 	@PostMapping
 	@Transactional //responsavel para reverter a transação problematica
-	public void cadastrar(@RequestBody @Valid DadosCadastroCarro dados) {
-		repository.save(new Carro(dados));
+	public ResponseEntity<DadosDetalhamentoCarro> cadastrar(@RequestBody @Valid DadosCadastroCarro dados, UriComponentsBuilder uriBuilder) {
+		var carro = new Carro(dados); //3
+		repository.save(carro); //4
+		
+		var uri = uriBuilder.path("/carros/{id}").buildAndExpand(carro.getId()).toUri(); //2
+		
+		return ResponseEntity.created(uri).body(new DadosDetalhamentoCarro(carro)); //1
 	}
 	
 	@GetMapping
@@ -50,6 +56,7 @@ public class CarroController {
 		
 		return ResponseEntity.ok(new DadosDetalhamentoCarro(carro));
 	}
+	
 	//(tem exclusão padrão e exclusão logica)
 	
 	@DeleteMapping("/{id}") // id dinamicco
