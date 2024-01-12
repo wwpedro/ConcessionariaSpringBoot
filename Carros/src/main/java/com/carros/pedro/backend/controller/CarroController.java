@@ -81,4 +81,12 @@ public class CarroController {
 		return ResponseEntity.noContent().build();
 	}
 	
+	@GetMapping("/{id}") // id dinamicco
+	public ResponseEntity<DadosDetalhamentoCarro> detalhar(@PathVariable Long id) {
+		var carro = repository.getReferenceById(id);
+		
+		return ResponseEntity.ok(new DadosDetalhamentoCarro(carro));
+	}
+	
+	
 }
